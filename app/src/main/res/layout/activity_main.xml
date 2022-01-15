@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="text1"
+        android:id="@+id/text1"
+         />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="text2"
+        android:id="@+id/text2"
+        android:layout_marginTop="20dp"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="复位"
+        android:id="@+id/reset"
+        android:layout_marginTop="10dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="获取值"
+        android:id="@+id/getvalue"
+        android:layout_marginTop="10dp"/>
+
+    <EditText
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:hint="请输入要发送的消息"
+        android:id="@+id/msget"/>
+
+   <LinearLayout
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:orientation="horizontal"
+       android:layout_margin="5dp"
+       android:padding="5dp">
+
+       <Button
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="打开串口"
+           android:id="@+id/openserialBt"/>
+
+       <Button
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="关闭串口"
+           android:id="@+id/closeserialBt"
+           android:layout_marginLeft="20dp"/>
+
+       <Button
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="发送数据"
+           android:id="@+id/sendBt"
+           android:layout_marginLeft="20dp"/>
+
+       <Button
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="清空显示数据"
+           android:id="@+id/clearBt"
+           android:layout_marginLeft="20dp"/>
+   </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:id="@+id/serialstatusTx"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:autoText="true"
+            android:id="@+id/content"/>
+    </ScrollView>
+
+</LinearLayout>
