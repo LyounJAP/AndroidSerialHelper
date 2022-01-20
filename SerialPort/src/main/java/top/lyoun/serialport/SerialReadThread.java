@@ -1,5 +1,7 @@
 package top.lyoun.serialport;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -14,6 +16,7 @@ public abstract class SerialReadThread extends Thread{
 
     private InputStream mInputStream;
     private byte[] mReceivedBuffer;
+    private boolean reading;
 
     public SerialReadThread(InputStream inputStream) {
         mInputStream = inputStream;
@@ -23,7 +26,8 @@ public abstract class SerialReadThread extends Thread{
     @Override
     public void run() {
         super.run();
-        while (!isInterrupted()) {
+        reading = true;
+        while (reading) {
             try {
                 if (null == mInputStream) {
                     return;
@@ -34,7 +38,9 @@ public abstract class SerialReadThread extends Thread{
                 }
                 byte[] receivedBytes = new byte[size];
                 System.arraycopy(mReceivedBuffer, 0, receivedBytes, 0, size);
-                onDataReceived(receivedBytes);
+                if (reading) {
+                    onDataReceived(receivedBytes);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -47,15 +53,20 @@ public abstract class SerialReadThread extends Thread{
      * 释放
      */
     public void release() {
-        interrupt();
+        try {
+            reading = false;
+            interrupt();
 
-        if (null != mInputStream) {
-            try {
-                mInputStream.close();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (null != mInputStream) {
+                try {
+                    mInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mInputStream = null;
             }
-            mInputStream = null;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

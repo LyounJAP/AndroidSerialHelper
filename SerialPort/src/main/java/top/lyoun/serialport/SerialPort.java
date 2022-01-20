@@ -43,7 +43,8 @@ public final class SerialPort {
 
     private static final String TAG = "SerialPort";
 
-    public static final String DEFAULT_SU_PATH = "/system/bin/su";
+    //android6及其以上开发版（且android6以下的也能用）：/system/bin/sh
+    public static final String DEFAULT_SU_PATH = "/system/bin/sh"; ///system/bin/su
 
     private static String sSuPath = DEFAULT_SU_PATH;
     private File device; //串口设备文件
@@ -235,9 +236,13 @@ public final class SerialPort {
     private void stopSendThread() {
         mSendingHandler = null;
         if (null != mSendingHandlerThread) {
-            mSendingHandlerThread.interrupt();
-            mSendingHandlerThread.quit();
-            mSendingHandlerThread = null;
+            try {
+                mSendingHandlerThread.interrupt();
+                mSendingHandlerThread.quit();
+                mSendingHandlerThread = null;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -271,7 +276,7 @@ public final class SerialPort {
      * @param device 文件
      * @return 权限修改是否成功
      */
-    private boolean chmod777(File device) {
+    public static boolean chmod777(File device) {
         if (null == device || !device.exists()) {
             return false;
         }
@@ -296,7 +301,7 @@ public final class SerialPort {
             Log.e(TAG, "openSafe: 文件不存在或文件不能为空！");
             return false;
         }
-        Log.i(TAG, String.format("SerialPort: %s: %d,%d,%d,%d,%d,%d", device.getPath(), baudrate, dataBits, parity, stopBits, flags));
+        Log.i(TAG, String.format("SerialPort: %s: %d,%d,%d,%d,%d", device.getPath(), baudrate, dataBits, parity, stopBits, flags));
         if (!device.canRead() || !device.canWrite()) {
             boolean chmod777 = chmod777(device);
             if (!chmod777) {

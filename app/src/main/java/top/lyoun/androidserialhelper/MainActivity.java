@@ -15,6 +15,7 @@ import java.util.Arrays;
 
 import top.lyoun.androidserialhelper.databinding.ActivityMainBinding;
 import top.lyoun.serialport.Hello;
+import top.lyoun.serialport.RequestStoragePrivileges;
 import top.lyoun.serialport.SerialPort;
 import top.lyoun.serialport.Welcome;
 import top.lyoun.serialport.listener.OnSerialDataListener;
@@ -54,8 +55,10 @@ public class MainActivity extends AppCompatActivity {
         mSerial1 = mApplication.getSerial1();
 
         //读取设备列表
-        Log.i(TAG, "allDevices: " + Arrays.toString(mApplication.mSerialPortFinder.getAllDevices()));
+        Log.i(TAG, "allDevices: " + Arrays.toString(mApplication.mSerialPortFinder.getAllDevices(this)));
+        Log.i(TAG, "\n=============================\n");
         Log.i(TAG, "allDevicesPath: " + Arrays.toString(mApplication.mSerialPortFinder.getAllDevicesPath()));
+
     }
 
     @Override

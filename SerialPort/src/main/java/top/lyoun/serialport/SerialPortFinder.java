@@ -16,6 +16,7 @@
 
 package top.lyoun.serialport;
 
+import android.app.Activity;
 import android.util.Log;
 import java.io.File;
 import java.io.FileReader;
@@ -48,6 +49,8 @@ public class SerialPortFinder {
                 
                 File[] files = dev.listFiles();
 
+                Log.i(TAG, "driver: " + files);
+
                 if (files != null) {
                     int i;
                     for (i = 0; i < files.length; i++) {
@@ -70,7 +73,10 @@ public class SerialPortFinder {
 
     private Vector<Driver> mDrivers = null;
 
+    Activity activity;
+
     Vector<Driver> getDrivers() throws IOException {
+
         if (mDrivers == null) {
             mDrivers = new Vector<Driver>();
             LineNumberReader r = new LineNumberReader(new FileReader("/proc/tty/drivers"));
@@ -90,7 +96,9 @@ public class SerialPortFinder {
         return mDrivers;
     }
 
-    public String[] getAllDevices() {
+    public String[] getAllDevices(Activity activity) {
+        this.activity = activity;
+
         Vector<String> devices = new Vector<String>();
         // Parse each driver
         Iterator<Driver> itdriv;
@@ -99,6 +107,7 @@ public class SerialPortFinder {
             while (itdriv.hasNext()) {
                 Driver driver = itdriv.next();
                 Iterator<File> itdev = driver.getDevices().iterator();
+
                 while (itdev.hasNext()) {
                     String device = itdev.next().getName();
                     String value = String.format("%s (%s)", device, driver.getName());
@@ -130,4 +139,5 @@ public class SerialPortFinder {
         }
         return devices.toArray(new String[devices.size()]);
     }
+
 }

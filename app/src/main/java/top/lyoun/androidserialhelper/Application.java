@@ -20,8 +20,8 @@ public class Application extends android.app.Application {
     public SerialPort getSerial1(){
         if(mSerial1 == null){
             mSerial1 = SerialPort.newBuilder(
-                    "/dev/ttymxc1",
-                    115200)
+                    "/dev/ttyS1",
+                    9600)
                     .build();
         }
 
